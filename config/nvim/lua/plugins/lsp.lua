@@ -14,7 +14,7 @@ return {
         "html-lsp",
         "css-lsp",
         "emmet-ls",
-        "typescript-language-server", -- use ts server plugin for extensions
+        "typescript-language-server",  -- use ts server plugin for extensions
         "tailwindcss-language-server", -- add linter?
         "prettier",
         "eslint-lsp",
@@ -41,6 +41,8 @@ return {
     end,
   },
 
+  { "folke/neodev.nvim", opts = {} },
+
   {
     -- link to lspconfig server names:
     -- https://github.com/williamboman/mason-lspconfig.nvim?tab=readme-ov-file#available-lsp-servers
@@ -48,7 +50,7 @@ return {
     dependencies = {
       "nvim-lspconfig",
       "mason.nvim",
-      { "folke/neodev.nvim", opts = {} },
+      "neodev.nvim",
     },
     opts = function()
       local lspconfig = require("lspconfig")
@@ -86,8 +88,11 @@ return {
     config = function()
       local lspconfig = require("lspconfig")
       local lsp_defaults = lspconfig.util.default_config
-      lsp_defaults.capabilities =
-        vim.tbl_deep_extend("force", lsp_defaults.capabilities, require("cmp_nvim_lsp").default_capabilities())
+      lsp_defaults.capabilities = vim.tbl_deep_extend(
+        "force",
+        lsp_defaults.capabilities,
+        require("cmp_nvim_lsp").default_capabilities()
+      )
       vim.api.nvim_create_autocmd("LspAttach", {
         desc = "LSP actions",
         callback = function(event)
@@ -102,10 +107,9 @@ return {
           map("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<cr>", opts)
           map("n", "<F2>", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
           map("n", "<F4>", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
-          map({ "n", "x" }, "<leader>fm",
-            function()
-              vim.lsp.buf.format({ async = false })
-            end, opts)
+          map({ "n", "x" }, "<leader>fm", function()
+            vim.lsp.buf.format({ async = false })
+          end, opts)
           map("n", "gl", "<cmd>lua vim.diagnostic.open_float()<cr>", opts)
           map("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<cr>", opts)
           map("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<cr>", opts)

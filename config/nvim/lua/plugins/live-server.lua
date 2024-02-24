@@ -1,6 +1,6 @@
 return {
-  "MrCapivaro/live-server.nvim",
-  ft = { "html", "css", "javascript", "typescript" },
+  "barrett-ruth/live-server.nvim",
+  build = "pnpm add -g live-server",
   cmd = { "LiveServerStart", "LiveServerStop" },
   keys = {
     {
@@ -15,7 +15,6 @@ return {
     },
   },
   opts = {
-    -- windows = true,
     args = {
       "--browser=wslview",
     },
