@@ -32,3 +32,11 @@ function cheat() {
 function ll() {
   ls --color=always -al $@ | awk '{print $9}'
 }
+
+# pnpm
+export PNPM_HOME="/home/mrcapivaro/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
