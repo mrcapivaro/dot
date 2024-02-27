@@ -5,38 +5,17 @@ return {
     keys = {
       { "<leader>m", "<cmd>Mason<cr>", desc = "Open the Mason menu." },
     },
-    opts = {
-      ensure_installed = {
-        -- lua
-        "lua-language-server",
-        "stylua",
-        -- web dev --
-        "html-lsp",
-        "css-lsp",
-        "emmet-ls",
-        "typescript-language-server", -- use ts server plugin for extensions
-        "tailwindcss-language-server", -- add linter?
-        "prettier",
-        "eslint-lsp",
-        -- c & c++ --
-        "clangd", -- use clangd-extensions plugin for formatting
-        "codelldb",
-        -- python --
-        "pyright",
-        "ruff-lsp",
-        -- go --
-        -- rust --
-        -- nix? --
-        -- other --
-        "taplo",
-        "bash-language-server",
-        "shfmt",
-      },
-    },
+    opts = {},
     config = function(_, opts)
-      require("mason").setup(opts)
+      local mason = require("mason")
+      local mason_utils = require("util.mason")
+      local servers = require("config.servers")
+      mason.setup(opts)
       vim.api.nvim_create_user_command("MasonInstallAll", function()
-        require("util.mason").installServers(opts.ensure_installed)
+        mason_utils.installServers(servers.lsp)
+        mason_utils.installServers(servers.linter)
+        mason_utils.installServers(servers.formatter)
+        mason_utils.installServers(servers.dap)
       end, {})
     end,
   },
@@ -44,8 +23,6 @@ return {
   { "folke/neodev.nvim", opts = {} },
 
   {
-    -- link to lspconfig server names:
-    -- https://github.com/williamboman/mason-lspconfig.nvim?tab=readme-ov-file#available-lsp-servers
     "williamboman/mason-lspconfig.nvim",
     dependencies = {
       "nvim-lspconfig",
@@ -54,10 +31,19 @@ return {
     },
     opts = function()
       local lspconfig = require("lspconfig")
+      local lsp_defaults = lspconfig.util.default_config
+      lsp_defaults.capabilities = vim.tbl_deep_extend(
+        "force",
+        lsp_defaults.capabilities,
+        require("cmp_nvim_lsp").default_capabilities()
+      )
+      local capabilities = lsp_defaults
       return {
         handlers = {
           function(server_name)
-            lspconfig[server_name].setup({})
+            lspconfig[server_name].setup({
+              capabilities = capabilities,
+            })
           end,
           -- ["clangd"] = function()
           --   lspconfig.clangd.setup({
@@ -86,15 +72,8 @@ return {
       { "folke/neodev.nvim", opts = {} },
     },
     config = function()
-      local lspconfig = require("lspconfig")
-      local lsp_defaults = lspconfig.util.default_config
-      lsp_defaults.capabilities = vim.tbl_deep_extend(
-        "force",
-        lsp_defaults.capabilities,
-        require("cmp_nvim_lsp").default_capabilities()
-      )
       vim.api.nvim_create_autocmd("LspAttach", {
-        desc = "LSP actions",
+        desc = "LSP keymaps/actions.",
         callback = function(event)
           local opts = { buffer = event.buf }
           local map = vim.keymap.set
