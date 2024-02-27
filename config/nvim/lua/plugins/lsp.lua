@@ -14,7 +14,7 @@ return {
         "html-lsp",
         "css-lsp",
         "emmet-ls",
-        "typescript-language-server",  -- use ts server plugin for extensions
+        "typescript-language-server", -- use ts server plugin for extensions
         "tailwindcss-language-server", -- add linter?
         "prettier",
         "eslint-lsp",
