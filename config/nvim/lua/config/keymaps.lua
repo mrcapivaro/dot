@@ -6,7 +6,7 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
 -- Easy CMD
-map({ "n", "i", "v", "s" }, ";", ":", { desc = "Easy cmd." })
+map({ "n", "v", "s" }, ";", ":", { desc = "Easy cmd." })
 
 -- Save Buffer
 map({ "n", "i", "v", "s" }, "<C-s>", "<cmd>w<cr>", { desc = "Write buffer changes." })
