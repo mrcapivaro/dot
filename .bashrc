@@ -2,10 +2,15 @@
 
 export BROWSER=wslview
 export EDITOR=nvim
+# remove background color from ls
+LS_COLORS=$LS_COLORS:'tw=00;33:ow=01;33:'
+export LS_COLORS
 
 eval "$(starship init bash)"
 eval "$(zoxide init bash)"
 
+alias ..="cd .."
+alias ....="cd ../.."
 alias cd="z"
 alias ls="ls --color=auto"
 
