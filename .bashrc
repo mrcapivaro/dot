@@ -13,6 +13,7 @@ alias ..="cd .."
 alias ....="cd ../.."
 alias cd="z"
 alias ls="ls --color=auto"
+alias explorer="/mnt/c/Windows/explorer.exe"
 
 export PAGER="less -R"
 export LESS="--RAW-CONTROL-CHARS"
