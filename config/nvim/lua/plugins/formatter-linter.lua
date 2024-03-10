@@ -12,6 +12,7 @@ return {
         null_ls.builtins.formatting.shfmt.with({
           extra_args = { "-i", "2" }
         }),
+        null_ls.builtins.diagnostics.stylelint
       },
     })
   end,
