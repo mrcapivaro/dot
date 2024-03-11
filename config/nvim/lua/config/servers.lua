@@ -22,7 +22,6 @@ M.lsp = {
 }
 
 M.linter = {
-  "stylelint", -- css
   "eslint-lsp", -- js/ts linter lsp
 }
 
