@@ -1,6 +1,9 @@
 [[ $- != *i* ]] && return
 
-export BROWSER=wslview
+# FIXME: uncomment only if in WSL
+# export BROWSER=wslview
+# alias explorer="/mnt/c/Windows/explorer.exe"
+
 export EDITOR=nvim
 # remove background color from ls
 LS_COLORS=$LS_COLORS:'tw=00;33:ow=01;33:'
@@ -13,7 +16,7 @@ alias ..="cd .."
 alias ....="cd ../.."
 alias cd="z"
 alias ls="ls --color=auto"
-alias explorer="/mnt/c/Windows/explorer.exe"
+alias nswitch="sudo nix-rebuild switch --flake /etc/nixos"
 
 export PAGER="less -R"
 export LESS="--RAW-CONTROL-CHARS"
